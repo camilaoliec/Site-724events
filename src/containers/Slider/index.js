@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
-import { useData } from "../../contexts/DataContext";
-import { getMonth } from "../../helpers/Date";
+import React, { useEffect, useState } from "react";
+import { useData } from "../../contexts/DataContext/index.js";
+import { getMonth } from "../../helpers/Date/index.js";
 
 import "./style.scss";
 
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+
+  if(!data || !data.focus) {
+    console.log("Données non chargées !");
+    return <p>Chargement des événements...</p>
+  }
+
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
     new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
+  console.log("évenements après le tri :", byDateDesc);
   const nextCard = () => {
     setTimeout(
       () => setIndex(index < byDateDesc.length ? index + 1 : 0),

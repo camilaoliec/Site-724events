@@ -1,6 +1,6 @@
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import Icon from "../../components/Icon";
+import Icon from "../../components/Icon/index.js";
 import "./style.scss";
 
 const Modal = ({ opened, Content, children }) => {

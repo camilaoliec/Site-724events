@@ -1,9 +1,9 @@
-import { useState } from "react";
-import EventCard from "../../components/EventCard";
-import Select from "../../components/Select";
-import { useData } from "../../contexts/DataContext";
-import Modal from "../Modal";
-import ModalEvent from "../ModalEvent";
+import React, { useState } from "react";
+import EventCard from "../../components/EventCard/index.js";
+import Select from "../../components/Select/index.js";
+import { useData } from "../../contexts/DataContext/index.js";
+import Modal from "../Modal/index.js";
+import ModalEvent from "../ModalEvent/index.js";
 
 import "./style.css";
 

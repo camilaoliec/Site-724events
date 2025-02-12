@@ -1,16 +1,17 @@
-import Menu from "../../containers/Menu";
-import ServiceCard from "../../components/ServiceCard";
-import EventCard from "../../components/EventCard";
-import PeopleCard from "../../components/PeopleCard";
+import React from "react";
+import Menu from "../../containers/Menu/index.js";
+import ServiceCard from "../../components/ServiceCard/index.js";
+import EventCard from "../../components/EventCard/index.js";
+import PeopleCard from "../../components/PeopleCard/index.js";
 
 import "./style.scss";
-import EventList from "../../containers/Events";
-import Slider from "../../containers/Slider";
-import Logo from "../../components/Logo";
-import Icon from "../../components/Icon";
-import Form from "../../containers/Form";
-import Modal from "../../containers/Modal";
-import { useData } from "../../contexts/DataContext";
+import EventList from "../../containers/Events/index.js";
+import Slider from "../../containers/Slider/index.js";
+import Logo from "../../components/Logo/index.js";
+import Icon from "../../components/Icon/index.js";
+import Form from "../../containers/Form/index.js";
+import Modal from "../../containers/Modal/index.js";
+import { useData } from "../../contexts/DataContext/index.js";
 
 const Page = () => {
   const {last} = useData()

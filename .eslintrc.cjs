@@ -5,7 +5,6 @@ module.exports = {
     jest: true
   },
   extends: [
-    'plugin:react/recommended',
     'airbnb',
     'prettier',
   ],
@@ -20,6 +19,10 @@ module.exports = {
     'react',
   ],
   rules: {
+    "import/extensions": ["error", "ignorePackages", {
+      "js": "always",
+      "jsx": "always"
+    }],
     'react/react-in-jsx-scope': 'off',
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": 'off',

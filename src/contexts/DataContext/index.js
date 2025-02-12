@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -17,20 +17,27 @@ export const api = {
 };
 
 export const DataProvider = ({ children }) => {
+  const [data, setData] = useState({ focus: [] });
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+
+  console.log("Valeur de data :", data);
+
   const getData = useCallback(async () => {
     try {
-      setData(await api.loadData());
+      const response = await api.loadData();
+      setData(response);
     } catch (err) {
       setError(err);
     }
-  }, []);
+  }, [api]);
   useEffect(() => {
-    if (data) return;
-    getData();
-  });
-  
+    if (data && !data.focus.length) {
+      getData();
+    }
+  }, [data]);
+
+  if (!data.focus.length) return <p>Chargement des événements...</p>;
+
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
@@ -46,7 +53,7 @@ export const DataProvider = ({ children }) => {
 
 DataProvider.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
 export const useData = () => useContext(DataContext);
 
