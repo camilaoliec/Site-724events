@@ -38,12 +38,16 @@ export const DataProvider = ({ children }) => {
 
   if (!data.focus.length) return <p>Chargement des événements...</p>;
 
+  const bydatedesc = [...data.focus].sort((a,b) => new Date(b.date) - new Date(a.date));
+  const last = bydatedesc[0] || null;
+
   return (
     <DataContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         data,
         error,
+        last
       }}
     >
       {children}
