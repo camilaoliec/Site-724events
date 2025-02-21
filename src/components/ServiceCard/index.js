@@ -1,8 +1,9 @@
+/* eslint-disable react/require-default-props */
 import PropTypes from "prop-types";
 
 import "./style.scss";
 
-const ServiceCard = ({ imageSrc, imageAlt, children }) => (
+const ServiceCard = ({ imageSrc, imageAlt = "image", children }) => (
     <div className="ServiceCard">
       <div className="ServiceCard__imageContainer">
         <img data-testid="card-image-testid" src={imageSrc} alt={imageAlt} />
@@ -16,9 +17,5 @@ ServiceCard.propTypes = {
   imageAlt: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
-
-ServiceCard.defaultProps = {
-  imageAlt: "image"
-}
 
 export default ServiceCard;

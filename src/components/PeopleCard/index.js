@@ -1,9 +1,10 @@
+/* eslint-disable react/require-default-props */
 import React from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
 
-const PeopleCard = ({ imageSrc, imageAlt, position, name }) => (
+const PeopleCard = ({ imageSrc, imageAlt = "", position, name }) => (
     <div className="PeopleCard">
       <div className="PeopleCard__imageContainer">
         <img data-testid="card-image-testid" src={imageSrc} alt={imageAlt} />
@@ -21,9 +22,5 @@ PeopleCard.propTypes = {
   name: PropTypes.string.isRequired,
   position: PropTypes.string.isRequired,
 };
-
-PeopleCard.defaultProps = {
-  imageAlt: "",
-}
 
 export default PeopleCard;
