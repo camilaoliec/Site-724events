@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from "react";
 import PropTypes from "prop-types";
 import { getMonth } from "../../helpers/Date/index.js";
@@ -33,7 +32,7 @@ const EventCard = ({
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
-  date: PropTypes.instanceOf(Date).isRequired,
+  date: PropTypes.instanceOf(Date),
   title: PropTypes.string.isRequired,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,

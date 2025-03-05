@@ -1,5 +1,5 @@
+import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import React, { useEffect, useMemo, useState } from "react";
 import { useData } from "../../contexts/DataContext/index.js";
 import { getMonth } from "../../helpers/Date/index.js";
 
@@ -8,60 +8,66 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+  const byDateDesc =
+    data?.focus && data.focus.length > 0
+      ? data.focus.sort((evtA, evtB) =>
+          new Date(evtA.date) < new Date(evtB.date) ? -1 : 1,
+        )
+      : [];
 
-  if (!data || !data.focus) {
-    console.log("Données non chargées !");
-    return <p>Chargement des événements...</p>;
-  }
+  const timeoutRef = useRef(null);
 
-  const byDateDesc = [...data.focus].sort(
-    (evtA, evtB) => new Date(evtB.date) - new Date(evtA.date)
-  );
-  const uuids = useMemo(() => byDateDesc.map(() => uuidv4()), [byDateDesc]);
-  const radioKeys = useMemo(() => byDateDesc.map(() => uuidv4()), [byDateDesc]);
+  const nextCard = () => {
+    setIndex((prevIndex) =>
+      prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0,
+    );
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIndex(index < byDateDesc.length - 1 ? index + 1 : 0);
-    }, 5000);
-    return () => clearTimeout(timer);
+    timeoutRef.current = setTimeout(nextCard, 5000);
+
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
   }, [index]);
 
-  // Clique no botao do slide!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const handleRadioChange = (radioIdx) => {
+    setIndex(radioIdx);
+    clearTimeout(timeoutRef.current);
+  };
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
-          <div
-            key={uuids[idx]}
-            className={`SlideCard SlideCard--${
-              index === idx ? "display" : "hide"
-            }`}
-          >
-            <img src={event.cover} alt="forum" />
-            <div className="SlideCard__descriptionContainer">
-              <div className="SlideCard__description">
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <div>{getMonth(new Date(event.date))}</div>
-              </div>
+        <div
+          key={uuidv4()}
+          className={`SlideCard SlideCard--${
+            index === idx ? "display" : "hide"
+          }`}
+        >
+          <img src={event.cover} alt="forum" />
+          <div className="SlideCard__descriptionContainer">
+            <div className="SlideCard__description">
+              <h3>{event.title}</h3>
+              <p>{event.description}</p>
+              <div>{getMonth(new Date(event.date))}</div>
             </div>
           </div>
-          <div className="SlideCard__paginationContainer">
-            <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
-                <input
-                  key={radioKeys[radioIdx]}
-                  type="radio"
-                  name="radio-button"
-                  checked={index === radioIdx}
-                  onChange={() => setIndex(radioIdx)}
-                />
-              ))}
-            </div>
-          </div>
-        </>
+        </div>
       ))}
+      <div className="SlideCard__paginationContainer">
+        <div className="SlideCard__pagination">
+          {byDateDesc.map((evt, radioIdx) => (
+            <input
+              key={uuidv4()}
+              type="radio"
+              name="radio-button"
+              checked={index === radioIdx}
+              onChange={() => handleRadioChange(radioIdx)}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
