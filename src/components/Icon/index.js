@@ -1,5 +1,4 @@
 /* istanbul ignore file */
-import React from "react";
 import PropTypes from "prop-types";
 
 const Icon = ({ name }) => {
@@ -83,7 +82,7 @@ const Icon = ({ name }) => {
       );
       break;
     default:
-      icon = null
+      icon = null;
   }
   return (
     <svg
@@ -100,6 +99,6 @@ const Icon = ({ name }) => {
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
-}
+};
 
 export default Icon;

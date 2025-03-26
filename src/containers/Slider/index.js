@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useData } from "../../contexts/DataContext/index.js";
 import { getMonth } from "../../helpers/Date/index.js";
@@ -17,11 +17,11 @@ const Slider = () => {
 
   const timeoutRef = useRef(null);
 
-  const nextCard = () => {
+  const nextCard = useCallback(() => {
     setIndex((prevIndex) =>
       prevIndex < byDateDesc.length - 1 ? prevIndex + 1 : 0,
     );
-  };
+  }, [byDateDesc.length]);
 
   useEffect(() => {
     timeoutRef.current = setTimeout(nextCard, 5000);
@@ -29,7 +29,7 @@ const Slider = () => {
     return () => {
       clearTimeout(timeoutRef.current);
     };
-  }, [index]);
+  }, [index, nextCard]);
 
   const handleRadioChange = (radioIdx) => {
     setIndex(radioIdx);

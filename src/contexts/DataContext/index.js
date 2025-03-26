@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {
+import {
   createContext,
   useCallback,
   useContext,
@@ -17,29 +17,19 @@ export const api = {
 };
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState({ focus: [] });
   const [error, setError] = useState(null);
-
-  console.log("Valeur de data :", data);
-
+  const [data, setData] = useState(null);
   const getData = useCallback(async () => {
     try {
-      const response = await api.loadData();
-      setData(response);
+      setData(await api.loadData());
     } catch (err) {
       setError(err);
     }
-  }, [api]);
+  }, []);
   useEffect(() => {
-    if (data && !data.focus.length) {
-      getData();
-    }
-  }, [data]);
-
-  if (!data.focus.length) return <p>Chargement des événements...</p>;
-
-  const bydatedesc = [...data.focus].sort((a,b) => new Date(b.date) - new Date(a.date));
-  const last = bydatedesc[0] || null;
+    if (data) return;
+    getData();
+  }, [getData, data]);
 
   return (
     <DataContext.Provider
@@ -47,7 +37,6 @@ export const DataProvider = ({ children }) => {
       value={{
         data,
         error,
-        last
       }}
     >
       {children}

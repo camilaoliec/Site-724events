@@ -4,8 +4,8 @@ import { useState } from "react";
 import "./style.scss";
 
 const Select = ({
-  selection = [],
-  onChange = () => null,
+  selection,
+  onChange,
   name = "select",
   titleEmpty = false,
   label = "",

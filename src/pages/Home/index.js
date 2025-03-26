@@ -1,20 +1,27 @@
-import React from "react";
-import Menu from "../../containers/Menu/index.js";
-import ServiceCard from "../../components/ServiceCard/index.js";
 import EventCard from "../../components/EventCard/index.js";
 import PeopleCard from "../../components/PeopleCard/index.js";
+import ServiceCard from "../../components/ServiceCard/index.js";
+import Menu from "../../containers/Menu/index.js";
 
-import "./style.scss";
-import EventList from "../../containers/Events/index.js";
-import Slider from "../../containers/Slider/index.js";
-import Logo from "../../components/Logo/index.js";
 import Icon from "../../components/Icon/index.js";
+import Logo from "../../components/Logo/index.js";
+import EventList from "../../containers/Events/index.js";
 import Form from "../../containers/Form/index.js";
 import Modal from "../../containers/Modal/index.js";
+import ModalEvent from "../../containers/ModalEvent/index.js";
+import Slider from "../../containers/Slider/index.js";
 import { useData } from "../../contexts/DataContext/index.js";
+import "./style.scss";
 
 const Page = () => {
-  const { last } = useData();
+  const { data } = useData();
+
+  const sortedEvents =
+    data?.events?.sort((a, b) =>
+      new Date(a.date) > new Date(b.date) ? -1 : 1,
+    ) || [];
+
+  const last = sortedEvents[0];
   return (
     <>
       <header>
@@ -24,7 +31,7 @@ const Page = () => {
         <section className="SliderContainer">
           <Slider />
         </section>
-        <section className="ServicesContainer">
+        <section id="nos-services" className="ServicesContainer">
           <h2 className="Title">Nos services</h2>
           <p>Nous organisons des événements sur mesure partout dans le monde</p>
           <div className="ListContainer">
@@ -53,11 +60,11 @@ const Page = () => {
             </ServiceCard>
           </div>
         </section>
-        <section className="EventsContainer">
+        <section id="nos-realisations" className="EventsContainer">
           <h2 className="Title">Nos réalisations</h2>
           <EventList />
         </section>
-        <section className="PeoplesContainer">
+        <section id="notre-equipe" className="PeoplesContainer">
           <h2 className="Title">Notre équipe</h2>
           <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
           <div className="ListContainer">
@@ -115,15 +122,22 @@ const Page = () => {
       <footer className="row">
         <div className="col presta">
           <h3>Notre derniére prestation</h3>
-          {console.log("Ultimo evento", last)}
-          {console.log("Cover recebido", last?.cover)}
-          <EventCard
-            imageSrc={last?.cover}
-            title={last?.title}
-            date={new Date(last?.date)}
-            small
-            label="boom"
-          />
+          <Modal
+            Content={
+              last ? <ModalEvent event={last} /> : <div>No event available</div>
+            }
+          >
+            {({ setIsOpened }) => (
+              <EventCard
+                onClick={() => setIsOpened(true)}
+                imageSrc={last?.cover || " "}
+                title={last?.title || " "}
+                date={new Date(last?.date)}
+                label={last?.type || " "}
+                small
+              />
+            )}
+          </Modal>
         </div>
         <div className="col contact">
           <h3>Contactez-nous</h3>

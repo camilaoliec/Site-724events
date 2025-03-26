@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
@@ -8,7 +7,13 @@ export const BUTTON_TYPES = {
   SUBMIT: 2,
 };
 
-const Button = ({ title = "", onClick = () => null, type = BUTTON_TYPES.DEFAULT, disabled = false, children = null }) => {
+const Button = ({
+  title = "",
+  onClick = () => null,
+  type = BUTTON_TYPES.DEFAULT,
+  disabled = false,
+  children = null,
+}) => {
   switch (type) {
     case BUTTON_TYPES.DEFAULT:
       return (
@@ -50,7 +55,6 @@ const Button = ({ title = "", onClick = () => null, type = BUTTON_TYPES.DEFAULT,
       );
   }
 };
-
 
 Button.propTypes = {
   title: PropTypes.string,
